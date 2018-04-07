@@ -7,9 +7,9 @@ from bs4 import BeautifulSoup
 import sys
 import os
 
-from PyQt5.QtCore import QDate, QTime, Qt #Gerekli importlarý yaptýk
+from PyQt5.QtCore import QDate, QTime, Qt #Gerekli importlarÃ½ yaptÃ½k
 
-#þimdiki zamaný aldýk. #gün ay yýl günismi ni yazdýracaz
+#Ã¾imdiki zamanÃ½ aldÃ½k. #gÃ¼n ay yÃ½l gÃ¼nismi ni yazdÃ½racaz
 
 from PyQt5.QtWidgets import QWidget,QApplication,QTextEdit,QLabel,QPushButton,QVBoxLayout,QFileDialog,QHBoxLayout
 
@@ -30,50 +30,48 @@ class Pencere(QWidget):
         html_icerigi = response.content
         soup = BeautifulSoup(html_icerigi, "html.parser")
         self.bist = soup.find_all("div", {"class": "general w130 h100"})
-        #buraya kadar internetten veri çekme iþlemini yaptýk
+        #buraya kadar internetten veri Ã§ekme iÃ¾lemini yaptÃ½k
 
 
         self.yazi_alani = QTextEdit()
         self.setGeometry(675, 300, 500, 500)
-        self.goster = QPushButton("Haberleri Göster")
+        self.goster = QPushButton("Haberleri GÃ¶ster")
         self.sil=QPushButton("Temizle")
-        self.tarih=QLabel(QDate.currentDate().toString(Qt.DefaultLocaleLongDate))#tarihi yazdýrmak için.
-        #burada buton ve labelleri atadýk.
+        self.tarih=QLabel(QDate.currentDate().toString(Qt.DefaultLocaleLongDate))#tarihi yazdÃ½rmak iÃ§in.
+        #burada buton ve labelleri atadÃ½k.
 
         v_box = QVBoxLayout()
         v_box.addWidget(self.tarih)
-        v_box.addWidget(self.goster) # önce haberleri göster butonu
-        v_box.addWidget(self.yazi_alani) # sonra haber yazýsý alaný
+        v_box.addWidget(self.goster) # Ã¶nce haberleri gÃ¶ster butonu
+        v_box.addWidget(self.yazi_alani) # sonra haber yazÃ½sÃ½ alanÃ½
         v_box.addWidget(self.sil) # en altta temizle butonu
-        #sýralama ve biçim verdik
+        #sÃ½ralama ve biÃ§im verdik
 
-        self.setWindowTitle("Güncel Haber Baþlýklarý")
+        self.setWindowTitle("GÃ¼ncel Haber BaÃ¾lÃ½klarÃ½")
         self.setLayout(v_box)
-        self.goster.clicked.connect(self.click) #gostere týklanýrsa clik fonk. çalýþsýn
-        self.sil.clicked.connect(self.supur) #temizleye týklanýrsa supur fonk. çalýþsýn
+        self.goster.clicked.connect(self.click) #gostere tÃ½klanÃ½rsa clik fonk. Ã§alÃ½Ã¾sÃ½n
+        self.sil.clicked.connect(self.supur) #temizleye tÃ½klanÃ½rsa supur fonk. Ã§alÃ½Ã¾sÃ½n
         self.show()
-        #buraya kadar koþullar vs.
+        #buraya kadar koÃ¾ullar vs.
 
 
 
 
     def click(self):
-        file = open("../haberler.txt", "w",encoding="utf-8")#belgeyi yeniden oluþtursun.
+        file = open("../haberler.txt", "w",encoding="utf-8")#belgeyi yeniden oluÃ¾tursun.
         for i in self.bist:
 
                 i=i.text
                 file = open("../haberler.txt", "a",encoding="utf-8")  # Yaz
                 file.write(i)
 
-                print(i) #test için
+                print(i) #test iÃ§in
         with open("../haberler.txt", "r",encoding="utf-8") as file: #Oku
             self.yazi_alani.setText(file.read())
 
 
     def supur(self):
-        self.yazi_alani.clear() # yazi alanýný temizle
-
-
+        self.yazi_alani.clear() # yazi alanÃ½nÃ½ temizle
 
 
 app = QApplication(sys.argv)
@@ -81,5 +79,3 @@ app = QApplication(sys.argv)
 pencere = Pencere()
 
 sys.exit(app.exec_())
-
-
